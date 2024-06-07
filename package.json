@@ -1,0 +1,7 @@
+{
+    "name": "com.gtxera.oak",
+    "version": "0.1.0",
+    "displayName": "Oak",
+    "description": "Oak is a simple behaviour tree system",
+    "license": "MIT",
+}
