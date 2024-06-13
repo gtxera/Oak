@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
 
 namespace Oak
 {
-    public abstract class Composite : Node
+    public abstract class Composite : ExecutableNode
     {
-        protected List<Node> children;
+        public event Action<Task> NextTaskFound;
+
+        protected List<ExecutableNode> children;
 
         public override void Init(OakContext context)
         {
@@ -19,9 +22,9 @@ namespace Oak
 
         public override void Reset()
         {
-            foreach (var chid in children)
+            foreach (var child in children)
             {
-                chid.Reset();
+                child.Reset();
             }
         }
 
@@ -44,7 +47,7 @@ namespace Oak
                     task = ((Composite)nextNode).Start();
                 }
 
-                context.SetCurrentTask(task);
+                NextTaskFound?.Invoke(task);
             }
         }
 
@@ -62,6 +65,22 @@ namespace Oak
             return task;
         }
 
-        public abstract Node Compose(Node.Status lastTaskStatus);
+        protected override IEnumerable<Node> Enumerate()
+        {
+            foreach (var node in base.Enumerate())
+            {
+                yield return node;
+            }
+
+            foreach (var child in children)
+            {
+                foreach (var node in child)
+                {
+                    yield return node;
+                }
+            }
+        }
+
+        public abstract ExecutableNode Compose(Node.Status lastTaskStatus);
     }
 }

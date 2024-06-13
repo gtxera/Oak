@@ -1,34 +1,39 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Oak
 {
-    public abstract class Node
+    public abstract class Node :  IEnumerable<Node>
     {
-        public event EventHandler<Status> NodeFinished;
-
-        protected OakContext context;
-
         public int Depth { get; private set; }
         public int Priority { get; private set; }
 
-        private bool _invertResult;
+        protected OakContext context;
+
+        protected bool InvertResult { get; private set; }
 
         public virtual void Init(OakContext context)
         {
             this.context = context;
         }
 
-        protected void Finish(Status status)
-        {
-            if (_invertResult)
-            {
-                status = status == Status.Success ? Status.Failure : Status.Success;
-            }
+        public abstract void Reset();
 
-            NodeFinished?.Invoke(this, status);
+        public IEnumerator<Node> GetEnumerator()
+        {
+            foreach (var node in Enumerate())
+            {
+                yield return node;
+            }
         }
 
-        public abstract void Reset();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        protected abstract IEnumerable<Node> Enumerate();
 
         public enum Status
         {

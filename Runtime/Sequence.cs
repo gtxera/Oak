@@ -4,7 +4,7 @@ namespace Oak
     {
         private int _currentChildIndex;
 
-        public override Node Compose(Status lastTaskStatus)
+        public override ExecutableNode Compose(Status lastTaskStatus)
         {
             if (lastTaskStatus == Node.Status.Failure)
             {

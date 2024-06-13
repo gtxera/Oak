@@ -1,7 +1,7 @@
 
 namespace Oak
 {
-    public abstract class Task : Node
+    public abstract class Task : ExecutableNode
     {
         public void Update()
         {
