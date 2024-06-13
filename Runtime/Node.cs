@@ -8,6 +8,11 @@ namespace Oak
 
         public abstract void Reset();
 
+        protected void Finish(Status status)
+        {
+            NodeFinished?.Invoke(status);
+        }
+
         public enum Status
         {
             Running,
