@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Oak
@@ -13,6 +14,8 @@ namespace Oak
 
         private Task _currentTask;
         private Composite _treeRoot;
+
+        private Dictionary<string, OakValue> _values = new();
 
         public OakContext(GameObject ownerObject, Composite treeRoot, bool startImmediate)
         {
@@ -75,9 +78,32 @@ namespace Oak
             _currentTask = task;
         }
 
+        public bool ContainsKey(string key)
+        {
+            return _values.ContainsKey(key);
+        }
+
         private bool ShouldExecute()
         {
             return !_isPaused && _ownerObject.activeInHierarchy;
+        }
+
+        public OakValue this[string key]
+        {
+            get
+            {
+                if (!ContainsKey(key))
+                {
+                    var newValue = new OakValue();
+                    _values[key] = newValue;
+                }
+
+                return _values[key];
+            }
+            set
+            {
+                _values[key] = value;
+            }
         }
     }
 }
