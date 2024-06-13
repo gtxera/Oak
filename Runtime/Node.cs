@@ -6,13 +6,24 @@ namespace Oak
     {
         public event Action<Status> NodeFinished;
 
-        public abstract void Reset();
+        protected OakContext context;
+
+        public void Init(OakContext context)
+        {
+            this.context = context;
+
+            Init();
+        }
 
         protected void Finish(Status status)
         {
             NodeFinished?.Invoke(status);
         }
 
+        public abstract void Reset();
+
+        public abstract void Init();
+        
         public enum Status
         {
             Running,
