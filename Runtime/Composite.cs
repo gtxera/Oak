@@ -25,7 +25,7 @@ namespace Oak
             }
         }
 
-        private void OnNodeFinished(Node.Status status)
+        private void OnNodeFinished(object sender, Node.Status status)
         {
             var nextNode = Compose(status);
 

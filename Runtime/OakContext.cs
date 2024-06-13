@@ -22,7 +22,7 @@ namespace Oak
             _ownerObject = ownerObject;
 
             _treeRoot = treeRoot;
-            _treeRoot.NodeFinished += (status) => BehaviourTreeFinished?.Invoke(status);
+            _treeRoot.NodeFinished += (_, status) => BehaviourTreeFinished?.Invoke(status);
 
             _isPaused = true;
 
@@ -100,9 +100,23 @@ namespace Oak
 
                 return _values[key];
             }
+
             set
             {
-                _values[key] = value;
+                if (!ContainsKey(key))
+                {
+                    var newValue = new OakValue();
+                    _values[key] = newValue;
+                }
+
+                if (value == null)
+                {
+                    _values[key].Unset();
+                }
+                else
+                {
+                    _values[key].Set(value);
+                }
             }
         }
     }

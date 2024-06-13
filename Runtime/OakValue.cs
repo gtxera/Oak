@@ -4,6 +4,8 @@ namespace Oak
 {
     public class OakValue
     {
+        public EventHandler<bool> ValueChanged;
+
         private object _value;
 
         private bool _isSet;
@@ -11,11 +13,6 @@ namespace Oak
         internal OakValue()
         {
             _value = null;
-        }
-
-        internal OakValue(object value)
-        {
-            _value = value;
         }
 
         public bool IsSet()
@@ -27,11 +24,16 @@ namespace Oak
         {
             _isSet = true;
             _value = value;
+
+            ValueChanged?.Invoke(this, _isSet);
         }
 
         public void Unset()
         {
             _isSet = false;
+            _value = null;
+
+            ValueChanged?.Invoke(this, _isSet);
         }
 
         public bool IsOfType<T>()
