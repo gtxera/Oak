@@ -8,11 +8,9 @@ namespace Oak
 
         protected OakContext context;
 
-        public void Init(OakContext context)
+        public virtual void Init(OakContext context)
         {
             this.context = context;
-
-            Init();
         }
 
         protected void Finish(Status status)
@@ -22,8 +20,6 @@ namespace Oak
 
         public abstract void Reset();
 
-        public abstract void Init();
-        
         public enum Status
         {
             Running,

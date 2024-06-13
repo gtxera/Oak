@@ -6,12 +6,14 @@ namespace Oak
     {
         protected List<Node> children;
 
-        public override void Init()
+        public override void Init(OakContext context)
         {
+            base.Init(context);
+
             foreach (var child in children)
             {
                 child.NodeFinished += OnNodeFinished;
-                child.Init();
+                child.Init(context);
             }
         }
 

@@ -10,6 +10,7 @@ namespace Oak
             if (status != Node.Status.Running)
             {
                 Finish(status);
+                Reset();
             }
         }
 
